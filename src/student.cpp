@@ -89,22 +89,90 @@ void tutupSemuaTab(CNode*& head) {
 
 // SOAL 1
 bool bukaHalaman(DNode*& head, DNode*& tail, int nomor) {
-    return false;
+    DNode* baru = new DNode;
+    baru->data = nomor;
+    baru->next = nullptr;
+    baru->prev = tail;
+
+    if (tail != nullptr){
+        head = baru;
+        tail = baru;
+    }else {
+        tail->next = baru;
+        tail = baru;
+    }
+    return true;
 }
 
 // SOAL 2
 int riwayatMundur(DNode* tail, int* keluaran) {
-    return 0;
+    int n = 0;
+    for (DNode* p = tail; p != nullptr; p = p->prev) {
+        keluaran[n] = p->data;
+        n++;
+    }
+    return n;
 }
 
 // SOAL 3
 bool hapusHalaman(DNode*& head, DNode*& tail, int nomor) {
-    return false;
+    if (head == nullptr){
+        return false;
+    }
+
+    DNode* temp = head;
+
+    while (temp!= nullptr){
+        if (temp -> data == nomor){
+            //node pertama
+            if (temp == head){
+                head = temp -> next;
+
+                if (head != nullptr){
+                    head -> prev = nullptr;
+                }else{
+                    tail = nullptr;
+                }
+            }
+            //node terakhir
+            else if (temp == tail){
+                tail = temp -> prev;
+                tail -> next = nullptr;
+            }
+            //node tengah
+            else
+            {
+                temp -> prev -> next = temp -> next;
+                temp -> next -> prev = temp -> prev;
+            }
+            delete temp;
+
+            return false;
+        }
+
+        temp = temp -> next;
+    }
+
+    return true;
 }
 
 // SOAL 4
 bool bukaTab(CNode*& head, int nomor) {
-    return false;
+    CNode* baru = new CNode;
+    baru->data = nomor;
+
+    if (head == nullptr) {
+        head = baru;
+        baru->next = head;
+    } else {
+        CNode* p = head;
+        while (p->next != head) {
+            p = p->next;
+        }
+        p->next = baru;
+        baru->next = head;
+    }
+    return true;
 }
 
 // =============================================================================
